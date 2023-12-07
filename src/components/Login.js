@@ -4,10 +4,12 @@ import netflixabg from "../assets/netflixbackgrnd.jpeg";
 import { checkValidData } from "../utils/validate";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
 
   const fullname = useRef(null);
   const contact = useRef(null);
@@ -38,6 +40,7 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           console.log(user);
+          navigate("browser")
           // ...
         })
         .catch((error) => {
@@ -54,6 +57,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          navigate("browser")
           // ...
         })
         .catch((error) => {
