@@ -1,4 +1,4 @@
-import { createBrowserRouter, useNavigate } from 'react-router-dom';
+import { createBrowserRouter} from 'react-router-dom';
 import React, { useEffect } from 'react';
 import Login from './Login';
 import Browser from './Browser';
@@ -11,7 +11,6 @@ import { addUser, removeUser } from '../utils/userSlice';
 
 const Body = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const appRouter = createBrowserRouter([
     {
       path : "/",
@@ -27,12 +26,13 @@ const Body = () => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
-        const {uid,email,displayName} = user;
+        const {uid,email,displayName,photoURL} = user;
         dispatch(addUser(
           {
             uid: uid,
             email: email,
-            displayName: displayName
+            displayName: displayName,
+            photoURL: photoURL,
           },
         ));
         // navigate("/browser");  // because it gives me a error of navigate in written inthe router not out side from router.

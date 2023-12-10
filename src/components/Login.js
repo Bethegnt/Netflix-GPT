@@ -2,14 +2,18 @@ import React, { useRef, useState } from "react";
 import Header from "./Header";
 import netflixabg from "../assets/netflixbackgrnd.jpeg";
 import { checkValidData } from "../utils/validate";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const fullname = useRef(null);
   const contact = useRef(null);
@@ -39,9 +43,27 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log(user);
+          updateProfile(user, {
+            displayName: "fullname.current.value", photoURL: "https://avatars.githubusercontent.com/u/106432362?v=4"
+          }).then(() => {
+            const {uid,email,displayName,photoURL} = auth;
+            dispatch(addUser(
+              {
+                uid: uid,
+                email: email,
+                displayName: displayName,
+                photoURL: photoURL,
+              },
+            ));
+            // Profile updated!
           navigate("browser")
           // ...
+            // ...
+          }).catch((error) => {
+            // An error occurred
+            setErrorMessage(error.message);
+          });
+          
         })
         .catch((error) => {
           const errorCode = error.code;
