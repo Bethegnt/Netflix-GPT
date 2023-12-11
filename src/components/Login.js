@@ -4,7 +4,6 @@ import netflixabg from "../assets/netflixbackgrnd.jpeg";
 import { checkValidData } from "../utils/validate";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
@@ -12,7 +11,6 @@ import { addUser } from "../utils/userSlice";
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const fullname = useRef(null);
@@ -20,8 +18,10 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
 
+
   const handleButtonClick = () => {
     const message = checkValidData(
+      isSignInForm,
       email?.current?.value,
       password?.current?.value,
       fullname?.current?.value,
@@ -56,7 +56,7 @@ const Login = () => {
               },
             ));
             // Profile updated!
-          navigate("browser")
+          // navigate("browser")
           // ...
             // ...
           }).catch((error) => {
@@ -79,7 +79,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          navigate("browser")
+          // navigate("browser")
           // ...
         })
         .catch((error) => {
