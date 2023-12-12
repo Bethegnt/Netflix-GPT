@@ -30,7 +30,7 @@ const Header = () => {
             photoURL: photoURL,
           },
         ));
-        navigate("/browser");  // because it gives me a error of navigate in written inthe router not out side from router.
+        navigate("/browser");
       } else {
         // User is signed out
         dispatch(removeUser());
