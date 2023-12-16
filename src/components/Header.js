@@ -3,19 +3,27 @@ import { auth } from '../utils/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import netflixlogo from '../assets/netflix-logo.webp';
+import logo from '../assets/netflix-logo.webp';
 import netflixuser from '../assets/netlfix-user.png';
 import { addUser,removeUser } from '../utils/userSlice';
+import { toggleGptSearchView } from '../utils/gptSlice';
+import { SUPPORTED_LANGUAGES } from '../utils/constants';
+
+
+import { changeLanguage } from '../utils/configSlice';
 
 
 const Header = () => {
-  const [isDropdownButtonOpen,setIsDropdownButtonOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(store => store.user);
-  const userName = user?.displayName;
-  const toggelDropdownButton = () =>{
-    setIsDropdownButtonOpen(!isDropdownButtonOpen);
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {})
+      .catch((error) => {
+        navigate("/error");
+      });
   };
   
   useEffect(()=>{
@@ -37,26 +45,51 @@ const Header = () => {
         navigate("/")
       }
   });
+  // Unsuscribe when component unmounts
   return () => unsubscribe();
 },[]);
 
-  const handleSignout = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/");
-        dispatch(addUser(userName));
-      })
-      .catch((error) => {
-        // An error happened.
-        navigate("/error");
-      });
-  };
+const handleGptSearchClick=()=>{
+  // toggle gpt search
+  dispatch(toggleGptSearchView());
+}
+const handleLanguageChange = (e) =>{
+  dispatch(changeLanguage(e.target.value));
+};
+
+  
   return (
     <>
     <div className='absolute w-full px-5 py-2 bg-gradient-to-b from-neutral-950 z-10 flex justify-between'>
-     <img className='w-40' src={netflixlogo} alt='logo'/>
+     <img className='w-40 mx-auto md:mx-0' src={logo} alt='logo'/>
      {user && (
-             <div><img className='w-10 h-10 m-5 rounded-md' src={netflixuser} alt='user profile' onClick={toggelDropdownButton}/>
+             <div className='flex p-2 justify-between'>
+              {showGptSearch && (
+              <select
+              className=" mx-2 my-4 bg-gray-900 text-white rounded-lg"
+              onChange={handleLanguageChange}
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option key={lang.identifier} value={lang.identifier}>
+                  {lang.name}
+                </option>
+              ))}
+            </select>
+              )}
+               <button className="py-2 px-4 mx-4 my-4 bg-red-900 text-white rounded-lg" onClick={handleGptSearchClick}>{showGptSearch ? "Homepage" : "GPT Search"}</button>
+          <img className="hidden md:block w-12 h-12 m-2 rounded-lg" alt="netflixuser" src={netflixuser}/>
+          <button onClick={handleSignOut} className="font-bold text-white ">(Sign Out)</button>
+        </div>
+      )}
+    </div>
+    </>
+  );
+};
+export default Header;
+            
+{/* <button className='py-2 px-4 my-5 bg-purple-700 text-white rounded-md' onClick={handleGptSearchClick}>Gpt Search</button>
+              <img className='w-10 h-10 m-5 rounded-md' src={netflixuser} alt='user profile' onClick={toggleDropdownButton}/>
+             
             {isDropdownButtonOpen && (
               <div className="absolute bg-[#333333] text-slate-400 mt-14 w-60 right-2 p-2 rounded-lg shadow-lg">
                 <ul>
@@ -70,6 +103,6 @@ const Header = () => {
       </div>
     </>
   );
-};
-export default Header;
+}; */}
+// export default Header;
      

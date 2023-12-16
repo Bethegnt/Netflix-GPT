@@ -12,3 +12,10 @@ export const API_OPTIONS = {
 //   .catch(err => console.error(err));
 
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";
+
+export const SUPPORTED_LANGUAGES = [
+{identifier: "en",name:"English"},
+{identifier: "hindi",name:"Hindi"},
+{identifier: "spanish",name:"Spanish"},
+{identifier: "japanese",name:"Japanese"},
+{identifier: "korean",name:"Korean"}]
