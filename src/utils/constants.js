@@ -3,7 +3,8 @@ export const API_OPTIONS = {
     method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYmVhYzBiM2E3Yjc1NDE2ODA1OWI5NjlkOTJjYmIyNSIsInN1YiI6IjY1N2MwNDRkMTc2YTk0MTczNDAxMjc1YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.q0CuD1y_c-5r88b6t2ZnxrzRrIzVW9TX9brqLWtLQbQ',
+    // Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhYmVhYzBiM2E3Yjc1NDE2ODA1OWI5NjlkOTJjYmIyNSIsInN1YiI6IjY1N2MwNDRkMTc2YTk0MTczNDAxMjc1YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.q0CuD1y_c-5r88b6t2ZnxrzRrIzVW9TX9brqLWtLQbQ',
+    Authorization: "Bearer"+ process.env.REACT_APP_TMDB_KEY,
   }
 }
 // fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', API_OPTIONS)
@@ -18,4 +19,7 @@ export const SUPPORTED_LANGUAGES = [
 {identifier: "hindi",name:"Hindi"},
 {identifier: "spanish",name:"Spanish"},
 {identifier: "japanese",name:"Japanese"},
-{identifier: "korean",name:"Korean"}]
+{identifier: "korean",name:"Korean"}];
+
+export const OPEN_API ="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";
+// export const OPEN_API = process.env.REACT_APP_OPEN_API ;

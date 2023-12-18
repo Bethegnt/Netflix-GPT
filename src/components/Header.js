@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect} from 'react';
 import { auth } from '../utils/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -76,7 +76,7 @@ const handleLanguageChange = (e) =>{
               ))}
             </select>
               )}
-               <button className="py-2 px-4 mx-4 my-4 bg-red-900 text-white rounded-lg" onClick={handleGptSearchClick}>{showGptSearch ? "Homepage" : "GPT Search"}</button>
+               <button className="py-2 px-4 mx-4 my-4 bg-red-700 text-white rounded-lg" onClick={handleGptSearchClick}>{showGptSearch ? "Homepage" : "GPT Search"}</button>
           <img className="hidden md:block w-12 h-12 m-2 rounded-lg" alt="netflixuser" src={netflixuser}/>
           <button onClick={handleSignOut} className="font-bold text-white ">(Sign Out)</button>
         </div>
