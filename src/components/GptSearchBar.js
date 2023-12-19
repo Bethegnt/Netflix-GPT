@@ -44,11 +44,21 @@ const GptSearchBar = () => {
     }
 
     console.log(gptResults.choices?.[0]?.message?.content);
+
+    // Andaz Apna Apna, Hera Pheri, Chupke Chupke, Jaane Bhi Do Yaaro, Padosan
     const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
+
+    // ["Andaz Apna Apna", "Hera Pheri", "Chupke Chupke", "Jaane Bhi Do Yaaro", "Padosan"]
+
+    // For each movie I will search TMDB API
+
     const promiseArray = gptMovies.map((movie) => searchMovieTMDB(movie));
+    // [Promise, Promise, Promise, Promise, Promise]
+
     const tmdbResults = await Promise.all(promiseArray);
 
     console.log(tmdbResults);
+
 
     dispatch(
       addGptMovieResult({ movieNames: gptMovies, movieResults: tmdbResults })
